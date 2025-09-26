@@ -16,6 +16,8 @@ ros-humble-gazebo-ros2-control \
 ros-humble-ros2-control \
 ros-humble-ros2-controllers \
 ros-humble-controller-manager \
+ros-humble-joint-state-publisher \
+ros-humble-joint-state-publisher-gui \
 gazebo \
 mesa-utils
 
