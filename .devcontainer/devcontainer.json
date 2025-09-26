@@ -9,7 +9,8 @@
     "--env=QT_X11_NO_MITSHM=1",
     "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
     "--device=/dev/dri",
-    "--device=/dev/snd"
+    "--device=/dev/snd",
+    "--privileged"
     ],
     "containerEnv": {
         "NVIDIA_VISIBLE_DEVICES": "all",
@@ -19,6 +20,8 @@
         "__NV_PRIME_RENDER_OFFLOAD_PROVIDER": "NVIDIA-G0",
         "GAZEBO_AUDIO": "0",
         "ALSOFT_DRIVERS": "null",
+        "QT_X11_NO_MITSHM": "1",
+        "DISPLAY": "${localEnv:DISPLAY}",
     },
 
     "mounts": [
@@ -37,6 +40,7 @@
                 "gruntfuggly.todo-tree",
                 "GitHub.copilot",
 				"GitHub.copilot-chat",
+                "smilerobotics.urdf"
             ]
         }
     }
