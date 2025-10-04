@@ -278,7 +278,7 @@
   </transmission>
 
   <!-- Joint from gripper to jaw -->
-  <joint name="gripper" type="revolute">
+  <joint name="gripper_joint" type="revolute">
     <parent link="gripper"/>
     <child link="jaw"/>
     <origin xyz="-0.0202 -0.0244 0" rpy="0 3.14158 0"/>
@@ -289,7 +289,7 @@
   <transmission name="gripper_trans">
     <type>transmission_interface/SimpleTransmission</type>
     
-    <joint name="gripper">
+    <joint name="gripper_joint">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor6">
