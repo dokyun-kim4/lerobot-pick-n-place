@@ -18,10 +18,12 @@ def generate_launch_description():
 
     pkg_share = get_package_share_directory("lerobot_description")
     xacro_file = os.path.join(pkg_share, 'urdf', 'lerobot.xacro')
-    robot_description = Command(['xacro ', xacro_file])
+    robot_description = Command([
+        'xacro ', xacro_file
+        ])
 
 
-    # Ensure Gazebo can find mesh files
+    # Ensure Gazebo can find mesh files; required to use `package://` in xacro
     gazebo_resource_path = SetEnvironmentVariable(
                                                     name="GZ_SIM_RESOURCE_PATH",
                                                     value=[str(Path(pkg_share).parent.resolve())]
