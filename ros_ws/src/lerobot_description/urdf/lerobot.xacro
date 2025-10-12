@@ -2,8 +2,8 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lerobot">
 
     <xacro:arg name="is_ignition" default="true"/>
-    <!-- <xacro:include filename="$(find lerobot_description)/urdf/lerobot_gazebo.xacro"/> -->
-    <!-- <xacro:include filename="$(find lerobot_description)/urdf/lerobot_ros2_control.xacro"/> -->
+    <xacro:include filename="$(find lerobot_description)/urdf/lerobot_gazebo.xacro"/>
+    <xacro:include filename="$(find lerobot_description)/urdf/lerobot_ros2_control.xacro"/>
 
     <xacro:property name="PI" value="3.14159"/>
   
