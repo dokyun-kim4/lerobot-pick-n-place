@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lerobot">
     <gazebo>
         <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+            <!-- Load controller node parameters from yaml -->
             <parameters>$(find lerobot_control)/config/lerobot_controllers.yaml</parameters>    
         </plugin>
     </gazebo>
