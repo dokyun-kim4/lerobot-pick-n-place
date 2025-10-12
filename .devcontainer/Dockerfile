@@ -8,16 +8,15 @@ RUN sudo apt-get update && sudo apt-get install -y \
 ros-humble-rqt \
 ros-humble-rqt-common-plugins \
 ros-humble-rviz2 \
-ros-humble-gazebo-ros-pkgs \
-ros-humble-gazebo-plugins \
-ros-humble-gazebo-msgs \
-ros-humble-moveit \
-ros-humble-gazebo-ros2-control \
-ros-humble-ros2-control \
-ros-humble-ros2-controllers \
-ros-humble-controller-manager \
 ros-humble-joint-state-publisher \
 ros-humble-joint-state-publisher-gui \
+ros-humble-xacro \
+ros-humble-ros-gz* \
+ros-humble-ros2-control \
+ros-humble-ros2-controllers \
+ros-humble-ign-ros2-control* \
+ros-humble-moveit* \
+libserial-dev \
 gazebo \
 mesa-utils
 
