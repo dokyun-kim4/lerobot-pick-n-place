@@ -18,9 +18,11 @@ def generate_launch_description():
 
     pkg_share = get_package_share_directory("lerobot_description")
     xacro_file = os.path.join(pkg_share, 'urdf', 'lerobot.xacro')
-    robot_description = Command([
+    robot_description = ParameterValue(Command([
         'xacro ', xacro_file
-        ])
+        ]),
+        value_type=str
+    )
 
 
     # Ensure Gazebo can find mesh files; required to use `package://` in xacro
@@ -48,7 +50,7 @@ def generate_launch_description():
     robot_spawn_node = Node(
                             package='ros_gz_sim',
                             executable='create',
-                            arguments=['-topic', 'robot_description', '-name', 'lerobot'],
+                            arguments=['-topic', 'robot_description', '-name', 'lerobot', '--verbose'],
                             output='screen'
     )
 
