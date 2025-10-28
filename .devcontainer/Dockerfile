@@ -22,3 +22,5 @@ mesa-utils
 
 # Update apt sources
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+ENV ROS_LOCALHOST_ONLY=1
