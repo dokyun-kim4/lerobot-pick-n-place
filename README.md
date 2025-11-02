@@ -6,7 +6,16 @@ xhost +local:host
 ```
 on the host machine
 
-## MoveIt Configuration
+## Moveit
+
+### Running MoveIt Demo
+
+After sourcing your workspace, run
+```bash
+ros2 launch lerobot_moveit_config demo.launch.py
+```
+
+### Editing MoveIt Configuration
 
 `lerobot_moveit_config` package created with MoveIt setup assistant. Run 
 ```bash
