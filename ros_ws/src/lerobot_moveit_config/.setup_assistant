@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: lerobot_description
+    relative_path: urdf/lerobot.xacro
+  srdf:
+    relative_path: config/lerobot.srdf
+  package_settings:
+    author_name: Dominic Salmieri
+    author_email: dsalmieri@olin.edu
+    generated_timestamp: 1761922043
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity

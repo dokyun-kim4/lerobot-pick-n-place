@@ -5,7 +5,7 @@
 
     <ros2_control type="system" name="RobotSystem">
         <hardware>
-            <plugin>ign_ros2_control/IgnitionSystem</plugin>
+            <plugin>mock_components/GenericSystem</plugin>
         </hardware>
 
         <joint name="shoulder_pan">
