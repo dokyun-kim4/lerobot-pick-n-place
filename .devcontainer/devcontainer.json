@@ -10,7 +10,8 @@
     "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
     "--device=/dev/dri",
     "--device=/dev/snd",
-    "--privileged"
+    "--privileged",
+    "--runtime=nvidia"
     ],
     "containerEnv": {
         "NVIDIA_VISIBLE_DEVICES": "all",
@@ -21,7 +22,7 @@
         "GAZEBO_AUDIO": "0",
         "ALSOFT_DRIVERS": "null",
         "QT_X11_NO_MITSHM": "1",
-        "DISPLAY": "${localEnv:DISPLAY}",
+        "DISPLAY": "${localEnv:DISPLAY}"
     },
 
     "mounts": [
