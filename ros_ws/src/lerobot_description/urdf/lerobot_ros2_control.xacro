@@ -6,10 +6,10 @@
         <ros2_control type="system" name="RobotSystem">
             <!-- Set hardware plugins accordingly -->
             <hardware>
-                <xacro:if value="${ros_control_hardware_type == 'mock_components'}">
+                <xacro:if value="${ros2_control_hardware_type == 'mock_components'}">
                     <plugin>mock_components/GenericSystem</plugin>
                 </xacro:if>
-                <xacro:if value="${ros_control_hardware_type == 'real'}">
+                <xacro:if value="${ros2_control_hardware_type == 'real'}">
                     <plugin>feetech_ros2_driver/FeetechHardwareInterface</plugin>
                     <param name="usb_port">${usb_port}</param>
                 </xacro:if>
@@ -55,7 +55,6 @@
                 <state_interface name="velocity" />
             </joint>
             <joint name="wrist_roll">
-                <command_interface name="position">
                 <param name="id">5</param>
                 <param name="initial_position">0.0</param>
                 <param name="p_coeff">16</param>
