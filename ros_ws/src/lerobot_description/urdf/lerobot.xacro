@@ -11,7 +11,7 @@
 	<xacro:arg name="ros2_control_hardware_type" default="mock_components"/>
 	<xacro:arg
 		name="ros2_control_file"
-		defaul="$(find lerobot_description)/urdf/lerobot_ros2_control.xacro"
+		default="$(find lerobot_description)/urdf/lerobot_ros2_control.xacro"
 	/>
 	<xacro:arg name="usb_port" default="/dev/TODO" />
 
