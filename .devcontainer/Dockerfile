@@ -18,7 +18,8 @@ ros-humble-ign-ros2-control* \
 ros-humble-moveit* \
 libserial-dev \
 gazebo \
-mesa-utils
+mesa-utils \
+librange-v3-dev
 
 # Update apt sources
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
