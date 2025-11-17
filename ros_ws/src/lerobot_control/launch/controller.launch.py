@@ -9,12 +9,14 @@ from launch_ros.parameter_descriptions import ParameterValue
 # Pre-define all controller nodes to launch using `controller_manager spawner`
 startup_controllers = [
                         "joint_state_broadcaster",
-                        "joint_trajectory_controller",
-                        "gripper_controller"
+                        "gripper_controller",
+                        "arm_controller"
                     ]
         
 def generate_launch_description():
-    bringup_dir = get_package_share_path("lerobot_description")
+    lerobot_desc_dir = get_package_share_path("lerobot_description")
+    lerobot_ctrl_dir = get_package_share_path("lerobot_control")
+
 
     # ----- Set up LaunchArguments ----- #
     usb_port_arg = DeclareLaunchArgument(
@@ -32,14 +34,14 @@ def generate_launch_description():
     ros2_control_xacro_file_arg = DeclareLaunchArgument(
         "ros2_control_xacro_file",
         default_value=os.path.join(
-            bringup_dir, "urdf", "lerobot_ros2_control.xacro"
+            lerobot_desc_dir, "urdf", "lerobot_ros2_control.xacro"
         ),
         description="Full path to the ros2_control xacro file",
     )
 
     controller_config_file_arg = DeclareLaunchArgument(
         "controller_config_file",
-        default_value=os.path.join(bringup_dir, "control", "ros2_controllers.yaml"),
+        default_value=os.path.join(lerobot_ctrl_dir, "config", "lerobot_controllers.yaml"),
         description="Full path to the controller configuration file to use",
     )
 
@@ -47,12 +49,12 @@ def generate_launch_description():
 
 
     # ----- Set up StatePublisher node ----- #
-    xacro_file = os.path.join(bringup_dir, 'urdf', 'lerobot.xacro')
+    xacro_file = os.path.join(lerobot_desc_dir, 'urdf', 'lerobot.xacro')
     xacro_args = {
         "ros2_control_file": os.path.join(
-            bringup_dir, "urdf", "lerobot_ros2_control.xacro"
+            lerobot_desc_dir, "urdf", "lerobot_ros2_control.xacro"
         ),
-        "usb_port": "/dev/random",
+        "usb_port": "/dev/ttyACM0",
         "ros2_control_hardware_type": "real"
     }
     
@@ -92,7 +94,7 @@ def generate_launch_description():
             Node(
                 package="controller_manager",
                 executable="ros2_control_node",
-                parameters=[ros2_controllers_file],
+                parameters=[{"robot_description": robot_description}, ros2_controllers_file],
                 output="screen",
                 emulate_tty=True,
             ),
