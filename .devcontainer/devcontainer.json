@@ -10,6 +10,7 @@
     "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw",
     "--device=/dev/dri",
     "--device=/dev/snd",
+    "--device=/dev/ttyACM0",
     "--privileged",
     "--runtime=nvidia"
     ],

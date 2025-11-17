@@ -7,8 +7,20 @@
 -->
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="lerobot">
+
+	<xacro:arg name="ros2_control_hardware_type" default="mock_components"/>
+	<xacro:arg
+		name="ros2_control_file"
+		default="$(find lerobot_description)/urdf/lerobot_ros2_control.xacro"
+	/>
+	<xacro:arg name="usb_port" default="/dev/TODO" />
+
     <xacro:include filename="$(find lerobot_description)/urdf/lerobot_gazebo.xacro"/>
     <xacro:include filename="$(find lerobot_description)/urdf/lerobot_ros2_control.xacro"/>
+	<xacro:ros2_control
+		ros2_control_hardware_type="$(arg ros2_control_hardware_type)"
+		usb_port="$(arg usb_port)"
+	/>
 
     <!-- Materials -->
 	<material name="3d_printed">
@@ -361,7 +373,7 @@
 		<parent link="gripper" />
 		<child link="jaw" />
 		<axis xyz="0 0 1" />
-		<limit effort="10" velocity="10" lower="-0.174533" upper="1.74533" />
+		<limit effort="10" velocity="10" lower="-0.00153" upper="2.18746" />
 	</joint>
 
 	<transmission name="gripper_trans">
@@ -381,7 +393,7 @@
 		<parent link="wrist" />
 		<child link="gripper" />
 		<axis xyz="0 0 1" />
-		<limit effort="10" velocity="10" lower="-2.79253" upper="2.79253" />
+		<limit effort="10" velocity="10" lower="-1.205709" upper="4.62802" />
 	</joint>
 
 	<transmission name="wrist_roll_trans">
@@ -401,7 +413,7 @@
 		<parent link="lower_arm" />
 		<child link="wrist" />
 		<axis xyz="0 0 1" />
-		<limit effort="10" velocity="10" lower="-1.65806" upper="1.65806" />
+		<limit effort="10" velocity="10" lower="-1.81776" upper="1.69044" />
 	</joint>
 
 	<transmission name="wrist_flex_trans">
@@ -421,7 +433,7 @@
 		<parent link="upper_arm" />
 		<child link="lower_arm" />
 		<axis xyz="0 0 1" />
-		<limit effort="10" velocity="10" lower="-1.74533" upper="1.5708" />
+		<limit effort="10" velocity="10" lower="-1.82544" upper="1.55852" />
 	</joint>
 
 	<transmission name="elbow_flex_trans">
@@ -441,7 +453,7 @@
 		<parent link="shoulder" />
 		<child link="upper_arm" />
 		<axis xyz="0 0 1" />
-		<limit effort="10" velocity="10" lower="-1.74533" upper="1.74533" />
+		<limit effort="10" velocity="10" lower="-1.8085" upper="1.8085" />
 	</joint>
 
 	<transmission name="shoulder_lift_trans">
@@ -461,7 +473,7 @@
 		<parent link="base_link" />
 		<child link="shoulder" />
 		<axis xyz="0 0 1" />
-		<limit effort="10" velocity="10" lower="-1.91986" upper="1.91986" />
+		<limit effort="10" velocity="10" lower="-2.03559" upper="2.08467" />
 	</joint>
 
 	<transmission name="shoulder_pan_trans">

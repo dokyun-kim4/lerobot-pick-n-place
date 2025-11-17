@@ -50,7 +50,7 @@ CallbackReturn FeetechHardwareInterface::on_init(const hardware_interface::Hardw
   for (uint i = 0; i < info_.joints.size(); i++) {
     // Retrieve joint parameters from URDF file
     const auto& joint_params = info_.joints[i].parameters;
-    joint_ids_[i] = std::stoi(joint_params.at("id")); // get ID (1 - 6)
+    joint_ids_[i] = std::stoi(joint_params.at("id")); // get ID (1 - 6), should correspond to STS internal IDs
     joint_offsets_[i] = [&] { // get <offset>
       if (const auto offset_it = joint_params.find("offset"); offset_it != joint_params.end()) {
         return std::stoi(offset_it->second);
