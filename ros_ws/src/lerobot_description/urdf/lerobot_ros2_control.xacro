@@ -19,7 +19,7 @@
                 <param name="id">1</param>
                 <param name="initial_position">0.0</param>
                 <param name="p_coeff">8</param>
-                <param name="offset">941</param>
+                <param name="offset">2091</param>
                 <command_interface name="position"/>
                 <state_interface name="position" />
                 <state_interface name="velocity" />
@@ -29,7 +29,7 @@
                 <param name="id">2</param>
                 <param name="initial_position">0.0</param>
                 <param name="p_coeff">16</param>
-                <param name="offset">669</param>
+                <param name="offset">2026</param>
                 <command_interface name="position"/>
                 <state_interface name="position" />
                 <state_interface name="velocity" />
@@ -39,7 +39,7 @@
                 <param name="id">3</param>
                 <param name="initial_position">0.0</param>
                 <param name="p_coeff">16</param>
-                <param name="offset">789</param>
+                <param name="offset">2080</param>
                 <command_interface name="position"/>
                 <state_interface name="position" />
                 <state_interface name="velocity" />
@@ -49,7 +49,7 @@
                 <param name="id">4</param>
                 <param name="initial_position">0.0</param>
                 <param name="p_coeff">16</param>
-                <param name="offset">674</param>
+                <param name="offset">2067</param>
                 <command_interface name="position"/>
                 <state_interface name="position" />
                 <state_interface name="velocity" />
@@ -58,7 +58,7 @@
                 <param name="id">5</param>
                 <param name="initial_position">0.0</param>
                 <param name="p_coeff">16</param>
-                <param name="offset">1655</param>
+                <param name="offset">981</param>
                 <command_interface name="position"/>
                 <state_interface name="position" />
                 <state_interface name="velocity" />
@@ -68,7 +68,7 @@
                 <param name="id">6</param>
                 <param name="initial_position">0.0</param>
                 <param name="p_coeff">16</param>
-                <param name="offset">1064</param>
+                <param name="offset">2049</param>
                 <command_interface name="position"/>
                 <state_interface name="position" />
                 <state_interface name="velocity" />
