@@ -25,3 +25,6 @@ librange-v3-dev
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
 
 ENV ROS_LOCALHOST_ONLY=1
+
+# Aliases
+RUN echo 'alias rb="colcon build; . install/setup.bash"' >> ~/.bashrc
