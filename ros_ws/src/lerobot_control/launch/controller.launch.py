@@ -74,6 +74,7 @@ def generate_launch_description():
             {"robot_description": robot_description},
         ],
     )
+
     # ----- Set up ALL controller nodes ----- #
     controller_nodes = [
         Node(
@@ -83,6 +84,15 @@ def generate_launch_description():
         )
         for controller in startup_controllers
     ]
+    
+    # ----- Rviz for visualization ----- #
+    rviz2 = Node(
+                    package= "rviz2",
+                    executable= "rviz2",
+                    name= "rviz2",
+                    output= "screen",
+                    arguments=["-d", os.path.join(lerobot_desc_dir, "rviz", "display.rviz")]
+                )
 
     return LaunchDescription(
         [
@@ -98,7 +108,8 @@ def generate_launch_description():
                 output="screen",
                 emulate_tty=True,
             ),
-            state_publisher_node
+            state_publisher_node,
+            rviz2
         ]
         +
         controller_nodes
