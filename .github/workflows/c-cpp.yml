@@ -14,10 +14,6 @@ jobs:
 
     container:
       image: ghcr.io/dokyun-kim4/lerobot:latest
-
-      credentials:
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
       
     steps:
       - name: Pull Repository
