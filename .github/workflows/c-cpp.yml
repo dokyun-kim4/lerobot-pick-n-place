@@ -1,23 +1,29 @@
-name: C/C++ CI
+name: lerobot_build_check
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    types: [opened]
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
+    containter:
+      image: ghcr.io/dokyun-kim4/lerobot:latest
+
+      credentials:
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+      
     steps:
-    - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      - name: Pull Repository
+        uses: actions/checkout@v3
+      
+      - name: Test package build
+        run: |
+          cd /workspaces/lerobot-pick-n-place/ros_ws
+          colcon build
