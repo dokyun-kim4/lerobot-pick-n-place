@@ -34,11 +34,16 @@ hardware_type:=real
 
 ## Moveit
 
-### Running MoveIt Demo
+### Arm Bringup with MoveIt
 
+Start the arm with MoveIt with the `lerobot_control moveit.launch.py` launch file. The launch file takes in 2 parameters:
+- **usb_port**: Serial port of the arm (default: `/dev/LeRobot`); Override with your own port.
+- **hardware_type**: Type of hardware being used (default: `mock_components`). Override with `real` for physical arm.
 After sourcing your workspace, run
 ```bash
-ros2 launch lerobot_moveit_config demo.launch.py
+ros2 launch lerobot_control lerobot_control.launch.py \
+usb_port:=/dev/ttyACM0 \
+hardware_type:=real
 ```
 
 ### Editing MoveIt Configuration
