@@ -27,7 +27,7 @@ Connect to the arm with the `lerobot_control` package. The launch file takes in 
 - **controller_config_file**: Path to the controller config file (default: `lerobot_control/config/lerobot_controllers.yaml`).
 ```bash
 # For physical arm
-ros2 launch lerobot_control lerobot_control.launch.py \
+ros2 launch lerobot_control controller.launch.py \
 usb_port:=/dev/ttyACM0 \
 hardware_type:=real
 ```
@@ -41,7 +41,7 @@ Start the arm with MoveIt with the `lerobot_control moveit.launch.py` launch fil
 - **hardware_type**: Type of hardware being used (default: `mock_components`). Override with `real` for physical arm.
 After sourcing your workspace, run
 ```bash
-ros2 launch lerobot_control lerobot_control.launch.py \
+ros2 launch lerobot_control controller.launch.py \
 usb_port:=/dev/ttyACM0 \
 hardware_type:=real
 ```
