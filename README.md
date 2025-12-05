@@ -41,7 +41,7 @@ Start the arm with MoveIt with the `lerobot_control moveit.launch.py` launch fil
 - **hardware_type**: Type of hardware being used (default: `mock_components`). Override with `real` for physical arm.
 After sourcing your workspace, run
 ```bash
-ros2 launch lerobot_control controller.launch.py \
+ros2 launch lerobot_control moveit.launch.py \
 usb_port:=/dev/ttyACM0 \
 hardware_type:=real
 ```
