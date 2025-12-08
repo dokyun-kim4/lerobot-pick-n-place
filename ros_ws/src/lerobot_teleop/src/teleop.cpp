@@ -26,11 +26,6 @@ public:
         JOINT_NAMES = {"shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_roll", "gripper_joint"};
     }
 
-    ~KeyboardTeleop()
-    {
-        RCLCPP_INFO(this->get_logger(), "Press any key to quit");
-    }
-
 private:
     void setJointState(const sensor_msgs::msg::JointState::SharedPtr state)
     {
@@ -51,26 +46,30 @@ private:
         bool running = true; 
         char c;
 
-        while (true)
+        while (running)
         {
             if (read(STDIN_FILENO, &c, 1) > 0)
             { // Read one character
                 std::cout << "Key pressed: " << c << std::endl;
 
-                if (!rclcpp::ok()) {
+                switch (c)
+                {
+                case 'l':
+                    running = false;
+                    break;        
+                case 'p':
+                    std::cout << joint_states_.position[0] << std::endl;
                     break;
                 }
 
-                switch (c)
-                {          
-                case 'p':
-                    std::cout << joint_states_.position[0] << std::endl;
+                if (!rclcpp::ok() || !running) {
                     break;
                 }
             }
         }
 
         tcsetattr(STDIN_FILENO, TCSANOW, &old_tio); // Restore original settings
+        rclcpp::shutdown();
     }
 
     rclcpp::CallbackGroup::SharedPtr cb_group_;
