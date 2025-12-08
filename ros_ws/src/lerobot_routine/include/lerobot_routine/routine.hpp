@@ -8,19 +8,19 @@ struct Task {
   std::string named_target = "";
 };
 
-std::vector<Task> load_mission(const std::string& file_path) {
-  std::vector<Task> mission;
+std::vector<Task> load_routine(const std::string& file_path) {
+  std::vector<Task> routine;
   
   try {
     // Read YAML from given path
     YAML::Node config = YAML::LoadFile(file_path);
     
-    // Check for invalid YAML (missing "mission" or "tasks")
-    if (!config["mission"] || !config["mission"]["tasks"]) {
-      throw std::runtime_error("Missing key: mission or tasks");
+    // Check for invalid YAML (missing "routine" or "tasks")
+    if (!config["routine"] || !config["routine"]["tasks"]) {
+      throw std::runtime_error("Missing key: routine or tasks");
     }
     
-    for (const auto& cur_task : config["mission"]["tasks"]) {
+    for (const auto& cur_task : config["routine"]["tasks"]) {
       Task task;
       task.target = cur_task["target"].as<std::string>();
       
@@ -44,10 +44,10 @@ std::vector<Task> load_mission(const std::string& file_path) {
         task.gripper_position = cur_task["position"].as<double>();
       }
       
-      mission.push_back(task);
+      routine.push_back(task);
     }
   } catch (const YAML::Exception& e) {
     throw std::runtime_error("YAML parsing error: " + std::string(e.what()));
   }
-  return mission;
+  return routine;
 }

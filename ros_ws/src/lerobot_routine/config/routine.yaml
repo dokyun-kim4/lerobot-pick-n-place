@@ -1,5 +1,5 @@
 ---
-mission:
+routine:
   name: "pick_n_place"
   tasks:
       

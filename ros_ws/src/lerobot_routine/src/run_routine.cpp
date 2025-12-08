@@ -5,36 +5,36 @@
 
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include "lerobot_pick_n_place/mission.hpp"
+#include "lerobot_routine/routine.hpp"
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
   auto const node = std::make_shared<rclcpp::Node>(
-    "pick_n_place",
+    "run_routine",
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
   );
 
-  auto const logger = rclcpp::get_logger("pick_n_place");
+  auto const logger = rclcpp::get_logger("run_routine");
   using moveit::planning_interface::MoveGroupInterface;
   auto arm_group = MoveGroupInterface(node, "lerobot_arm");
   auto gripper_group = MoveGroupInterface(node, "lerobot_gripper");
 
-  std::string mission_name;
-  node->get_parameter("mission_name", mission_name);
+  std::string routine_name;
+  node->get_parameter("routine_name", routine_name);
 
-  if (mission_name == "") {
-    RCLCPP_ERROR(logger, "No mission_name parameter provided");
+  if (routine_name == "") {
+    RCLCPP_ERROR(logger, "No routine_name parameter provided");
     return 1;
   }
 
-  std::string mission_file_path = "/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_pick_n_place/config/" + mission_name + ".yaml";
-  std::vector<Task> mission;
+  std::string routine_file_path = "/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_routine/config/" + routine_name + ".yaml";
+  std::vector<Task> routine;
   try {
-    mission = load_mission(mission_file_path);
-    RCLCPP_INFO(logger, "Loaded mission: %s with %zu steps", mission_name.c_str(), mission.size());
+    routine = load_routine(routine_file_path);
+    RCLCPP_INFO(logger, "Loaded routine: %s with %zu steps", routine_name.c_str(), routine.size());
   } catch (const std::exception& e) {
-    RCLCPP_ERROR(logger, "Failed to load mission: %s", e.what());
+    RCLCPP_ERROR(logger, "Failed to load routine: %s", e.what());
     return 1;
   }
   
@@ -84,17 +84,17 @@ int main(int argc, char * argv[])
     }
   };
 
-  // Execute mission steps
-  RCLCPP_INFO(logger, "Starting mission execution...");
+  // Execute routine steps
+  RCLCPP_INFO(logger, "Starting routine execution...");
   
-  for (size_t idx=0; idx < mission.size(); idx++) {
-    Task task = mission[idx];
+  for (size_t idx=0; idx < routine.size(); idx++) {
+    Task task = routine[idx];
     RCLCPP_INFO(logger, "Executing step %zu: target=%s", idx, task.target.c_str());
     
     run_task(task);  
   }
 
-  RCLCPP_INFO(logger, "Mission completed successfully!");
+  RCLCPP_INFO(logger, "routine completed successfully!");
 
   rclcpp::shutdown();
   return 0;
