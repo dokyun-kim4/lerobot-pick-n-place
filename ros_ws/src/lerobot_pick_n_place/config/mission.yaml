@@ -2,8 +2,6 @@
 mission:
   name: "pick_n_place"
   tasks:
-    - target: "gripper"
-      position: 1.0
       
     - target: "arm" 
       pose:
@@ -16,6 +14,9 @@ mission:
           y: -0.5751
           z: -0.35788
           w: 0.661
+
+    - target: "gripper"
+      position: 1.0
           
     - target: "arm"
       pose:
@@ -30,7 +31,7 @@ mission:
           w: 0.65579
           
     - target: "gripper"
-      position: 0.2
+      position: 0.25
       
     - target: "arm"
       pose:
@@ -63,7 +64,4 @@ mission:
       named_target: "home"
       
     - target: "gripper"
-      position: 0.0
-    
-    - target: "arm"
-      named_target: "vertical"
+      position: 0.25

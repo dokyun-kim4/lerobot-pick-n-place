@@ -20,16 +20,25 @@ int main(int argc, char * argv[])
   auto arm_group = MoveGroupInterface(node, "lerobot_arm");
   auto gripper_group = MoveGroupInterface(node, "lerobot_gripper");
 
-  // Load mission from yaml
-  std::string mission_file_path = "/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_pick_n_place/config/mission.yaml";
+  std::string mission_name;
+  node->get_parameter("mission_name", mission_name);
+
+  if (mission_name == "") {
+    RCLCPP_ERROR(logger, "No mission_name parameter provided");
+    return 1;
+  }
+
+  std::string mission_file_path = "/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_pick_n_place/config/" + mission_name + ".yaml";
   std::vector<Task> mission;
   try {
     mission = load_mission(mission_file_path);
-    RCLCPP_INFO(logger, "Loaded mission with %zu steps", mission.size());
+    RCLCPP_INFO(logger, "Loaded mission: %s with %zu steps", mission_name.c_str(), mission.size());
   } catch (const std::exception& e) {
     RCLCPP_ERROR(logger, "Failed to load mission: %s", e.what());
     return 1;
   }
+  
+
 
   // lambda for executing task
   auto run_task = [&](const Task task) -> bool
