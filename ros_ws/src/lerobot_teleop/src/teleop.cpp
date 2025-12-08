@@ -16,10 +16,7 @@ public:
         publisher_ = this->create_publisher<trajectory_msgs::msg::JointTrajectory>("joint_trajectory", 10);
         RCLCPP_INFO(this->get_logger(), "Entering Keyboard Teleop Mode");
 
-        auto blocking_group = create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
-        rclcpp::SubscriptionOptions options;
-        options.callback_group = blocking_group;
-        timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&KeyboardTeleop::getInput, this), blocking_group);
+        timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&KeyboardTeleop::getInput, this));
 
         JOINT_NAMES = {"shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_roll", "gripper_joint"};
     }
@@ -27,7 +24,6 @@ public:
 private:
     void setJointState(const sensor_msgs::msg::JointState::SharedPtr state)
     {
-        // RCLCPP_INFO(this->get_logger(), "Received JointState message:");
         this->joint_states_ = *state;
     }
 
@@ -54,9 +50,10 @@ private:
                 {
                 case 'l': // Exit on 'l'
                     running = false; 
-                    break;                   
+                    break;               
                 case 'p':
                     std::cout << joint_states_.position[0] << std::endl;
+                    break;
                 }
             }
         }
