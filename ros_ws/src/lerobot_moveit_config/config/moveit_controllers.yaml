@@ -23,3 +23,7 @@ moveit_simple_controller_manager:
       - gripper_joint
     action_ns: gripper_cmd
     default: true
+
+# Trajectory execution parameters
+trajectory_execution:
+  allowed_start_tolerance: 0.05

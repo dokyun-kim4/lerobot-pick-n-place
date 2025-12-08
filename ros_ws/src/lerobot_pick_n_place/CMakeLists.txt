@@ -30,4 +30,7 @@ ament_target_dependencies(pick_n_place
 install(TARGETS pick_n_place
   DESTINATION lib/${PROJECT_NAME})
 
+install(DIRECTORY include/
+  DESTINATION include)
+
 ament_package()
