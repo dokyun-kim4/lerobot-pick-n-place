@@ -11,19 +11,30 @@ class KeyboardTeleop : public rclcpp::Node
 public:
     KeyboardTeleop() : Node("keyboard_teleop")
     {
+        cb_group_ = this->create_callback_group(
+        rclcpp::CallbackGroupType::Reentrant);
+        rclcpp::SubscriptionOptions options;
+        options.callback_group = cb_group_;
+        
         subscriber_ = this->create_subscription<sensor_msgs::msg::JointState>(
-            "joint_states", 10, std::bind(&KeyboardTeleop::setJointState, this, _1));
+            "joint_states", 10, std::bind(&KeyboardTeleop::setJointState, this, _1), options);
         publisher_ = this->create_publisher<trajectory_msgs::msg::JointTrajectory>("joint_trajectory", 10);
         RCLCPP_INFO(this->get_logger(), "Entering Keyboard Teleop Mode");
 
-        timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&KeyboardTeleop::getInput, this));
+        timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&KeyboardTeleop::getInput, this), cb_group_);
 
         JOINT_NAMES = {"shoulder_pan", "shoulder_lift", "elbow_flex", "wrist_flex", "wrist_roll", "gripper_joint"};
+    }
+
+    ~KeyboardTeleop()
+    {
+        RCLCPP_INFO(this->get_logger(), "Press any key to quit");
     }
 
 private:
     void setJointState(const sensor_msgs::msg::JointState::SharedPtr state)
     {
+        RCLCPP_INFO(this->get_logger(), "Joint states lol");
         this->joint_states_ = *state;
     }
 
@@ -40,17 +51,18 @@ private:
         bool running = true; 
         char c;
 
-        while (running)
+        while (true)
         {
             if (read(STDIN_FILENO, &c, 1) > 0)
             { // Read one character
                 std::cout << "Key pressed: " << c << std::endl;
 
+                if (!rclcpp::ok()) {
+                    break;
+                }
+
                 switch (c)
-                {
-                case 'l': // Exit on 'l'
-                    running = false; 
-                    break;               
+                {          
                 case 'p':
                     std::cout << joint_states_.position[0] << std::endl;
                     break;
@@ -60,6 +72,8 @@ private:
 
         tcsetattr(STDIN_FILENO, TCSANOW, &old_tio); // Restore original settings
     }
+
+    rclcpp::CallbackGroup::SharedPtr cb_group_;
 
     rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr subscriber_;
     rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr publisher_;
