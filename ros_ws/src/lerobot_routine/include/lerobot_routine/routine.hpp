@@ -1,5 +1,6 @@
 #include <yaml-cpp/yaml.h>
 #include <geometry_msgs/msg/pose.hpp>
+#include <fstream>
 
 struct Task {
   std::string target = "";
@@ -50,4 +51,43 @@ std::vector<Task> load_routine(const std::string& file_path) {
     throw std::runtime_error("YAML parsing error: " + std::string(e.what()));
   }
   return routine;
+}
+
+
+void save_routine(const std::string& routine_name, const std::vector<Task>& routine_vec)
+{
+  YAML::Emitter out;
+  out << YAML::BeginMap; // Begin File
+  out << YAML::Key << "routine" << YAML::Value << YAML::BeginMap; // Begin Routine
+  out << YAML::Key << "name" << YAML::Value << routine_name;
+  out << YAML::Key << "tasks" << YAML::Value << YAML::BeginSeq; // Begin Tasks
+
+  for (Task task: routine_vec)
+  { 
+    out << YAML::BeginMap;
+    out << YAML::Key << "target" << YAML::Value << task.target;
+    out << YAML::Key << "pose" << YAML::Value << YAML::BeginMap; // Start Pose
+    out << YAML::Key << "position" << YAML::Value << YAML::BeginMap; // Start Position
+    out << YAML::Key << "x" << YAML::Value << task.pose.position.x;
+    out << YAML::Key << "y" << YAML::Value << task.pose.position.y;
+    out << YAML::Key << "z" << YAML::Value << task.pose.position.z;
+    out << YAML::EndMap; // End Position
+
+    out << YAML::Key << "orientation" << YAML::Value << YAML::BeginMap; // Start Orientation
+    out << YAML::Key << "x" << YAML::Value << task.pose.orientation.x;
+    out << YAML::Key << "y" << YAML::Value << task.pose.orientation.y;
+    out << YAML::Key << "z" << YAML::Value << task.pose.orientation.z;
+    out << YAML::Key << "w" << YAML::Value << task.pose.orientation.w;
+    out << YAML::EndMap; // End Orientation
+    out << YAML::EndMap; // End of Pose
+    out << YAML::EndMap;
+  };
+
+  out << YAML::EndSeq; // End Tasks
+  out << YAML::EndMap; // End Routine
+  out << YAML::EndMap; // End File
+
+  std::ofstream fout("/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_routine/config/" + routine_name + ".yaml");
+  fout << out.c_str();
+  fout.close();
 }
