@@ -11,8 +11,10 @@
 class RoutineBuilder : public rclcpp::Node {
  public:
   RoutineBuilder() : Node("teach_routine_node") {
-
-    this->get_parameter("routine_name", routine_name_);
+    
+    this->declare_parameter("routine_name", "new_routine");
+    routine_name_ = this->get_parameter("routine_name").as_string();
+    RCLCPP_INFO(this->get_logger(), "%s", routine_name_.c_str());
 
     // TF2 buffer and listener for arm pose
     tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
