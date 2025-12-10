@@ -1,6 +1,7 @@
 #include <yaml-cpp/yaml.h>
 #include <geometry_msgs/msg/pose.hpp>
 #include <fstream>
+#include <iostream>
 
 struct Task {
   std::string target = "";
@@ -90,4 +91,5 @@ void save_routine(const std::string& routine_name, const std::vector<Task>& rout
   std::ofstream fout("/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_routine/config/" + routine_name + ".yaml");
   fout << out.c_str();
   fout.close();
+  std::cout << "Successfully saved routine to " << routine_name << ".yaml" << std::endl;
 }
