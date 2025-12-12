@@ -63,25 +63,33 @@ void save_routine(const std::string& routine_name, const std::vector<Task>& rout
   out << YAML::Key << "name" << YAML::Value << routine_name;
   out << YAML::Key << "tasks" << YAML::Value << YAML::BeginSeq; // Begin Tasks
 
+  // need logic to handle gripper pose
   for (Task task: routine_vec)
   { 
     out << YAML::BeginMap;
     out << YAML::Key << "target" << YAML::Value << task.target;
-    out << YAML::Key << "pose" << YAML::Value << YAML::BeginMap; // Start Pose
-    out << YAML::Key << "position" << YAML::Value << YAML::BeginMap; // Start Position
-    out << YAML::Key << "x" << YAML::Value << task.pose.position.x;
-    out << YAML::Key << "y" << YAML::Value << task.pose.position.y;
-    out << YAML::Key << "z" << YAML::Value << task.pose.position.z;
-    out << YAML::EndMap; // End Position
+    if (task.target == "arm")
+    {
+      out << YAML::Key << "pose" << YAML::Value << YAML::BeginMap; // Start Pose
+      out << YAML::Key << "position" << YAML::Value << YAML::BeginMap; // Start Position
+      out << YAML::Key << "x" << YAML::Value << task.pose.position.x;
+      out << YAML::Key << "y" << YAML::Value << task.pose.position.y;
+      out << YAML::Key << "z" << YAML::Value << task.pose.position.z;
+      out << YAML::EndMap; // End Position
 
-    out << YAML::Key << "orientation" << YAML::Value << YAML::BeginMap; // Start Orientation
-    out << YAML::Key << "x" << YAML::Value << task.pose.orientation.x;
-    out << YAML::Key << "y" << YAML::Value << task.pose.orientation.y;
-    out << YAML::Key << "z" << YAML::Value << task.pose.orientation.z;
-    out << YAML::Key << "w" << YAML::Value << task.pose.orientation.w;
-    out << YAML::EndMap; // End Orientation
-    out << YAML::EndMap; // End of Pose
+      out << YAML::Key << "orientation" << YAML::Value << YAML::BeginMap; // Start Orientation
+      out << YAML::Key << "x" << YAML::Value << task.pose.orientation.x;
+      out << YAML::Key << "y" << YAML::Value << task.pose.orientation.y;
+      out << YAML::Key << "z" << YAML::Value << task.pose.orientation.z;
+      out << YAML::Key << "w" << YAML::Value << task.pose.orientation.w;
+      out << YAML::EndMap; // End Orientation
+      out << YAML::EndMap; // End of Pose
+    }
+    else {
+      out << YAML::Key << "position" << YAML::Value << task.gripper_position;
+    }
     out << YAML::EndMap;
+    out << YAML::Newline;
   };
 
   out << YAML::EndSeq; // End Tasks
