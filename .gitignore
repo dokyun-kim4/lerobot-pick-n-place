@@ -3,6 +3,8 @@ build/
 install/
 log/
 
+ros_ws/src/lerobot_routine/config
+
 .build
 .pixi
 *.egg-info
