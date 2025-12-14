@@ -18,10 +18,10 @@ public:
     KeyboardTeleop() : Node("keyboard_teleop")
     {
         cb_group_ = this->create_callback_group(
-        rclcpp::CallbackGroupType::Reentrant);
+            rclcpp::CallbackGroupType::Reentrant);
         rclcpp::SubscriptionOptions options;
         options.callback_group = cb_group_;
-        
+
         subscriber_ = this->create_subscription<sensor_msgs::msg::JointState>(
             "joint_states", 10, std::bind(&KeyboardTeleop::setJointState, this, _1), options);
         arm_controller_ = this->create_publisher<trajectory_msgs::msg::JointTrajectory>("/arm_controller/joint_trajectory", 10);
@@ -39,7 +39,7 @@ private:
         this->joint_states_ = *state;
     }
 
-    void getInput() 
+    void getInput()
     {
         this->timer_->cancel();
 
@@ -49,14 +49,23 @@ private:
         new_tio.c_lflag &= (~ICANON & ~ECHO);       // Disable canonical mode and echoing
         tcsetattr(STDIN_FILENO, TCSANOW, &new_tio); // Apply new settings
 
-        bool running = true; 
+        bool running = true;
         char c;
+
+        std::cout << "Commands:" << std::endl
+                  << "Q/A: Shoulder Pan +/-" << std::endl
+                  << "W/S: Shoulder Lift +/-" << std::endl
+                  << "E/D: Elbow Flex +/-" << std::endl
+                  << "R/F: Wrist Flex +/-" << std::endl
+                  << "T/G: Wrist Roll +/-" << std::endl
+                  << "Y/H: Gripper +/-" << std::endl
+                  << "L: Quit" << std::endl;
 
         while (running)
         {
             if (read(STDIN_FILENO, &c, 1) > 0)
             { // Read one character
-                std::cout << "Key pressed: " << c << std::endl;
+                std::cout << "Key pressed: " << (char) toupper(c) << std::endl;
 
                 std::vector<double> arm_angles;
                 double gripper_angle;
@@ -70,7 +79,7 @@ private:
                 {
                 case 'l':
                     running = false;
-                    break;        
+                    break;
                 case 'p':
                     std::cout << joint_states_.position[0] << std::endl;
                     break;
@@ -112,7 +121,8 @@ private:
                     break;
                 }
 
-                if (!rclcpp::ok() || !running) {
+                if (!rclcpp::ok() || !running)
+                {
                     break;
                 }
 
