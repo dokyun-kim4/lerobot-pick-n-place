@@ -2,13 +2,15 @@
 #include <sensor_msgs/msg/joint_state.hpp>
 #include <trajectory_msgs/msg/joint_trajectory.hpp>
 #include <trajectory_msgs/msg/joint_trajectory_point.hpp>
+#include <std_msgs/msg/float64_multi_array.hpp>
 #include <termios.h>
 #include <unistd.h>
 
 using std::placeholders::_1;
 
-const float STEP = 0.01;
-const float TIME = 20000000;
+const float ARM_STEP = 0.02;
+const float GRIPPER_STEP = 0.05;
+const float TIME = 0.1;
 
 class KeyboardTeleop : public rclcpp::Node
 {
@@ -22,7 +24,8 @@ public:
         
         subscriber_ = this->create_subscription<sensor_msgs::msg::JointState>(
             "joint_states", 10, std::bind(&KeyboardTeleop::setJointState, this, _1), options);
-        publisher_ = this->create_publisher<trajectory_msgs::msg::JointTrajectory>("/arm_controller/joint_trajectory", 10);
+        arm_controller_ = this->create_publisher<trajectory_msgs::msg::JointTrajectory>("/arm_controller/joint_trajectory", 10);
+        gripper_controller_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/gripper_controller/commands", 10);
         RCLCPP_INFO(this->get_logger(), "Entering Keyboard Teleop Mode");
 
         timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&KeyboardTeleop::getInput, this), cb_group_);
@@ -55,10 +58,13 @@ private:
             { // Read one character
                 std::cout << "Key pressed: " << c << std::endl;
 
-                std::vector<double> joint_angles;
+                std::vector<double> arm_angles;
+                double gripper_angle;
 
-                joint_angles = this->joint_states_.position;
-                joint_angles.pop_back(); // Remove the gripper joint angle
+                arm_angles = this->joint_states_.position;
+                arm_angles.pop_back(); // Remove the gripper joint angle
+
+                gripper_angle = this->joint_states_.position.back();
 
                 switch (c)
                 {
@@ -69,34 +75,40 @@ private:
                     std::cout << joint_states_.position[0] << std::endl;
                     break;
                 case 'q':
-                    joint_angles[0] += STEP;
+                    arm_angles[0] += ARM_STEP;
                     break;
                 case 'a':
-                    joint_angles[0] -= STEP;
+                    arm_angles[0] -= ARM_STEP;
                     break;
                 case 'w':
-                    joint_angles[1] += STEP;
+                    arm_angles[1] += ARM_STEP;
                     break;
                 case 's':
-                    joint_angles[1] -= STEP;
+                    arm_angles[1] -= ARM_STEP;
                     break;
                 case 'e':
-                    joint_angles[2] += STEP;
+                    arm_angles[2] += ARM_STEP;
                     break;
                 case 'd':
-                    joint_angles[2] -= STEP;
+                    arm_angles[2] -= ARM_STEP;
                     break;
                 case 'r':
-                    joint_angles[3] += STEP;
+                    arm_angles[3] += ARM_STEP;
                     break;
                 case 'f':
-                    joint_angles[3] -= STEP;
+                    arm_angles[3] -= ARM_STEP;
                     break;
                 case 't':
-                    joint_angles[4] += STEP;
+                    arm_angles[4] += ARM_STEP;
                     break;
                 case 'g':
-                    joint_angles[4] -= STEP;
+                    arm_angles[4] -= ARM_STEP;
+                    break;
+                case 'y':
+                    gripper_angle -= GRIPPER_STEP;
+                    break;
+                case 'h':
+                    gripper_angle += GRIPPER_STEP;
                     break;
                 }
 
@@ -110,11 +122,16 @@ private:
                 joint_trajectory.joint_names = JOINT_NAMES;
 
                 trajectory_msgs::msg::JointTrajectoryPoint point;
-                point.positions = joint_angles;
-                point.time_from_start = rclcpp::Duration(0, TIME);
+                point.positions = arm_angles;
+                point.time_from_start = rclcpp::Duration(0, int(TIME * 1e9));
                 joint_trajectory.points.push_back(point);
 
-                publisher_->publish(joint_trajectory);
+                arm_controller_->publish(joint_trajectory);
+
+                std_msgs::msg::Float64MultiArray gripper_command;
+                gripper_command.data.push_back(gripper_angle);
+
+                gripper_controller_->publish(gripper_command);
             }
         }
 
@@ -125,7 +142,8 @@ private:
     rclcpp::CallbackGroup::SharedPtr cb_group_;
 
     rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr subscriber_;
-    rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr publisher_;
+    rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr arm_controller_;
+    rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr gripper_controller_;
     sensor_msgs::msg::JointState joint_states_;
     rclcpp::TimerBase::SharedPtr timer_;
     std::vector<std::string> JOINT_NAMES;
