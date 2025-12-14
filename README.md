@@ -62,13 +62,13 @@ Write this section
 
 ## Teaching a new behavior
 
-This project provides the `lerobot_routine` package for teaching new behaviors to the arm. All behaviors are stored as YAML files under the `lerobot_routine/config` directory.
+This project provides the `lerobot_routine` package for teaching new behaviors to the arm. All behaviors are stored as YAML files under the `lerobot_routine/routines` directory.
 
 To start recording a new behavior, run the `teach_routine` node.
 ```bash
 ros2 run lerobot_routine teach_routine --ros-args -p routine_name:=<routine_name>
 ```
-Replace `<routine_name>` with the desired name for the new behavior. This will save the routine to a new YAML file under `lerobot_routine/config` with the specified name.
+Replace `<routine_name>` with the desired name for the new behavior. This will save the routine to a new YAML file under `lerobot_routine/routines` with the specified name.
 
 <video src="https://github.com/user-attachments/assets/e57877a2-b086-4985-bd37-f004141f3c1f">
 </video>
@@ -78,8 +78,7 @@ Once the node is running, either use the teleop controls or the MoveIt GUI to mo
 When you are finished recording the behavior, press `q` to stop the node. The new routine will be saved and can be executed using the `run_routine` node.
 
 ```bash
-ros2 run lerobot_routine run_routine --ros-args -p
-routine_name:=<routine_name>
+ros2 run lerobot_routine run_routine --ros-args -p routine_name:=<routine_name>
 ```
 
 <video src="https://github.com/user-attachments/assets/cb4fb787-f29a-4944-9502-5e6ab826070c">
