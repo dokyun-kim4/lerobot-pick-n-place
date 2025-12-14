@@ -2,6 +2,9 @@
 #include <geometry_msgs/msg/pose.hpp>
 #include <fstream>
 #include <iostream>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 struct Task {
   std::string target = "";
@@ -63,7 +66,6 @@ void save_routine(const std::string& routine_name, const std::vector<Task>& rout
   out << YAML::Key << "name" << YAML::Value << routine_name;
   out << YAML::Key << "tasks" << YAML::Value << YAML::BeginSeq; // Begin Tasks
 
-  // need logic to handle gripper pose
   for (Task task: routine_vec)
   { 
     out << YAML::BeginMap;
@@ -96,7 +98,21 @@ void save_routine(const std::string& routine_name, const std::vector<Task>& rout
   out << YAML::EndMap; // End Routine
   out << YAML::EndMap; // End File
 
-  std::ofstream fout("/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_routine/config/" + routine_name + ".yaml");
+  std::string routine_dir = "/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_routine/routines/";
+  fs::path dir_path(routine_dir);
+  if (!fs::exists(dir_path)){
+    try{
+      if (fs::create_directory(dir_path)) {
+                  std::cout << "Successfully created directory." << std::endl;
+              } else {
+                  std::cout << "Failed to create directory (Unknown reason)." << std::endl;
+              }
+          } catch (const fs::filesystem_error& e) {
+              std::cerr << "Error creating directory: " << e.what() << std::endl;
+      }
+  }
+
+  std::ofstream fout(routine_dir + routine_name + ".yaml");
   fout << out.c_str();
   fout.close();
   std::cout << "Successfully saved routine to " << routine_name << ".yaml" << std::endl;
