@@ -28,7 +28,7 @@ int main(int argc, char * argv[])
     return 1;
   }
 
-  std::string routine_file_path = "/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_routine/config/" + routine_name + ".yaml";
+  std::string routine_file_path = "/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_routine/routines/" + routine_name + ".yaml";
   std::vector<Task> routine;
   try {
     routine = load_routine(routine_file_path);
