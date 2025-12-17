@@ -57,8 +57,27 @@ choose 'Edit Existing MoveIt Configuration Package', and select the `lerobot_mov
 When files are regenerated, you need to change the `max_velocity` values in [`joint_limits.yaml`](/ros_ws/src/lerobot_moveit_config/config/joint_limits.yaml) to be floats and not integers (change from `10` to `10.0`). If you don't, ROS2 will throw an error.
 
 ## Teleop Control
-TODO
-Write this section
+
+To control the robot arm with the keyboard, first bring up the arm. Unfortunately, teleop 
+does not currently work with MoveIt because it uses different ROS controllers. Once the robot
+has been started, run the teleop node with
+```bash
+ros2 run lerobot_teleop teleop
+```
+
+To control the robot, use the following controls:
+| Keys | Command                          |
+| ---- | ------------------------------ |
+| Q/A  | Shoulder Pan +/-               |
+| W/S  | Shoulder Lift +/-              |
+| E/D  | Elbow Flex +/-                 |
+| R/F  | Wrist Flex +/-                 |
+| T/G  | Wrist Roll +/-                 |
+| Y/H  | Gripper -/+                    |
+| P    | Print the current joint states |
+| L    | Quit the program               |
+
+If you stop the program with `Ctrl+C`, you will need to press a key on the keyboard to exit the I/O loop and fully quit the program.
 
 ## Teaching a new behavior
 
