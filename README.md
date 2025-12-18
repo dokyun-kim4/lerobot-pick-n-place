@@ -1,5 +1,4 @@
-# LeRobot Behavior Exploration
-
+# LeRobot Arm Behaviors
 This repository uses HuggingFace's SO-101 arm to perform tasks using ROS2 and MoveIt. The project is containzerized in a devcontainer for repeatability. 
 
 ## Setup
@@ -10,7 +9,7 @@ This repository uses HuggingFace's SO-101 arm to perform tasks using ROS2 and Mo
 xhost +local:host
 
 # 3. Clone the repository
-git clone https://github.com/dokyun-kim4/lerobot-pick-n-place.git
+git clone https://github.com/dokyun-kim4/lerobot-arm-behaviors.git
 
 # 4. Open the repository in VSCode and open in a devcontainer. This will take a few minutes to build the container.
 
@@ -31,6 +30,7 @@ ros2 launch lerobot_control controller.launch.py \
 usb_port:=/dev/ttyACM0 \
 hardware_type:=real
 ```
+For launching the arm in simulation, run the command above with no additional parameters.
 
 ## Arm Bringup (with MoveIt)
 
@@ -43,6 +43,8 @@ ros2 launch lerobot_control moveit.launch.py \
 usb_port:=/dev/ttyACM0 \
 hardware_type:=real
 ```
+For launching the arm in simulation, run the command above with no additional parameters.
+
 TODO
 Add GIF of arm control via moveit
 
@@ -58,7 +60,7 @@ When files are regenerated, you need to change the `max_velocity` values in [`jo
 
 ## Teleop Control
 
-To control the robot arm with the keyboard, first bring up the arm. Unfortunately, teleop 
+To control the robot arm with the keyboard, first [bring up the arm](#arm-bringup-default). Unfortunately, teleop 
 does not currently work with MoveIt because it uses different ROS controllers. Once the robot
 has been started, run the teleop node with
 ```bash
@@ -99,6 +101,7 @@ When you are finished recording the behavior, press `q` to stop the node. The ne
 ```bash
 ros2 run lerobot_routine run_routine --ros-args -p routine_name:=<routine_name>
 ```
+We provide a sample routine called `sample.yaml` that will run a simple pick and place sequence.
 
 <video src="https://github.com/user-attachments/assets/cb4fb787-f29a-4944-9502-5e6ab826070c">
 </video>
