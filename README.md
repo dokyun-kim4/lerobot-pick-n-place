@@ -101,7 +101,13 @@ When you are finished recording the behavior, press `q` to stop the node. The ne
 ```bash
 ros2 run lerobot_routine run_routine --ros-args -p routine_name:=<routine_name>
 ```
-We provide a sample routine called `sample.yaml` that will run a simple pick and place sequence.
-
+<div align='center'>
 <video src="https://github.com/user-attachments/assets/7fce8188-cb86-486c-a2f6-e2bb9bd94b73">
 </video>
+</div>
+We provide a sample routine called `sample.yaml` that will run a simple pick and place sequence.
+
+## Acknowledgements
+We would like to thank the following open source projects for providing valueable support throughout this project.
+- [ROS2 Servo Driver](https://github.com/JafarAbdi/feetech_ros2_driver) by JafarAbdi
+- [SO-ARM101](https://github.com/huggingface/lerobot) by HuggingFace
