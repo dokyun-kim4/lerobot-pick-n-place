@@ -1,0 +1,89 @@
+# SAMPLE ROUTINE: This will make the arm do a simple pnp sequence
+routine:
+  name: sample
+  tasks:
+
+    # top of picking spot
+    - target: arm
+      pose:
+        position:
+          x: 0.13804143001245955
+          y: -0.24119618189030764
+          z: 0.19529527975393968
+        orientation:
+          x: -0.11509480999302743
+          y: -0.19169335754991712
+          z: -0.49787373320620704
+          w: 0.83793113509835826
+    
+    # open gripper to pick
+    - target: gripper
+      position: 1.5661943844312396
+
+
+    # descend to target
+    - target: arm
+      pose:
+        position:
+          x: 0.14339180065380872
+          y: -0.25029721187502468
+          z: 0.15774237077841721
+        orientation:
+          x: -0.10029657698334156
+          y: -0.16733738245712548
+          z: -0.50034381141967754
+          w: 0.84356082617192019
+
+    # pick target
+    - target: gripper
+      position: 0.29145634969827183
+
+    # lift target
+    - target: arm
+      pose:
+        position:
+          x: 0.021211187203997423
+          y: -0.15271285379268387
+          z: 0.34206126070546611
+        orientation:
+          x: -0.48284433304416696
+          y: -0.48284836166140765
+          z: -0.51419814554808807
+          w: 0.51895960999189028
+
+    # move to place position
+    - target: arm
+      pose:
+        position:
+          x: -0.16357799304724274
+          y: -0.25315504323670918
+          z: 0.14196939575951384
+        orientation:
+          x: 0.14056207888187172
+          y: 0.06727570577090973
+          z: 0.88967845663463685
+          w: -0.42917190634248564
+
+    # open gripper
+    - target: gripper
+      position: 1.564660403643354
+
+    # retreat arm
+
+    - target: arm
+      pose:
+        position:
+          x: -0.15468194300724633
+          y: -0.24342267946274807
+          z: 0.15594871236867205
+        orientation:
+          x: 0.071135640791005442
+          y: 0.034181536159145376
+          z: 0.89720685338708905
+          w: -0.43450109945809429
+
+    - target: arm
+      named_target: vertical
+
+    - target: gripper
+      position: 0.030679615757712823

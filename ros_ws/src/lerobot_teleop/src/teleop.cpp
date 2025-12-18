@@ -9,9 +9,9 @@
 using std::placeholders::_1;
 
 // Constants for arm and gripper jog steps and the time they should take.
-const float ARM_STEP = 0.02;
-const float GRIPPER_STEP = 0.05;
-const float TIME = 0.1;
+const float ARM_STEP = 0.2;
+const float GRIPPER_STEP = 0.1;
+const float TIME = 1.0;
 
 class KeyboardTeleop : public rclcpp::Node
 {
