@@ -98,7 +98,7 @@ void save_routine(const std::string& routine_name, const std::vector<Task>& rout
   out << YAML::EndMap; // End Routine
   out << YAML::EndMap; // End File
 
-  std::string routine_dir = "/workspaces/lerobot-pick-n-place/ros_ws/src/lerobot_routine/routines/";
+  std::string routine_dir = "/workspaces/lerobot-arm-behaviors/ros_ws/src/lerobot_routine/routines/";
   fs::path dir_path(routine_dir);
   if (!fs::exists(dir_path)){
     try{
