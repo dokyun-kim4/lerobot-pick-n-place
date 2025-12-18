@@ -103,5 +103,5 @@ ros2 run lerobot_routine run_routine --ros-args -p routine_name:=<routine_name>
 ```
 We provide a sample routine called `sample.yaml` that will run a simple pick and place sequence.
 
-<video src="https://github.com/user-attachments/assets/cb4fb787-f29a-4944-9502-5e6ab826070c">
+<video src="https://github.com/user-attachments/assets/7fce8188-cb86-486c-a2f6-e2bb9bd94b73">
 </video>
